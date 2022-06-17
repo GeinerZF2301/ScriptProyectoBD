@@ -223,14 +223,14 @@ go
 --Creacion de la tabla Asignatura No Instrumental
 Use ConservatorioCastella
 GO
-Create Table AsignaturaNoInstrumental(
-Codigo_AsignaturaNoInstrumental varchar(20) NOT NULL,
+Create Table AsignaturaMagistal(
+Codigo_AsignaturaMagistral varchar(20) NOT NULL,
 Nombre varchar(30) NOT NULL,
 CantidadHoras int NOT NULL,
 FK_IdAulaMagistral varchar(10)
 Constraint PK_AsignaturaNoInstrumental
-PRIMARY KEY(Codigo_AsignaturaNoInstrumental)
---Falta añadir la relacion con la llave foránea de Aula Magistral
+PRIMARY KEY(Codigo_AsignaturaMagistral)
+
 )ON Administracion
 go
 
@@ -241,6 +241,8 @@ Create Table AlumnoAsignaturaInstrumental(
 Id_AlumnoAsignatura INTEGER IDENTITY(1,1) NOT NULL,
 FK_DniAlumno varchar(10) NOT NULL,
 FK_CodigoAsignaturaInstrumental varchar(20) NOT NULL,
+Constraint PK_Id_AlumnoAsignatura
+PRIMARY KEY(Id_AlumnoAsignatura),
 FOREIGN KEY(FK_DniAlumno) REFERENCES Alumno(Dni_Alumno),
 FOREIGN KEY(FK_CodigoAsignaturaInstrumental) REFERENCES AsignaturaInstrumental(Codigo_AsignaturaInstrumental)
 ) ON Administracion
@@ -249,12 +251,12 @@ GO
 
 Use ConservatorioCastella
 GO
-Create Table AlumnoAsignaturaNoInstrumental(
+Create Table AlumnoAsignaturaMagistral(
 Id_AlumnoAsignatura INTEGER IDENTITY(1,1) NOT NULL,
 FK_DniAlumno varchar(10) NOT NULL,
 FK_CodigoAsignaturaNoInstrumental varchar(20) NOT NULL,
 FOREIGN KEY(FK_DniAlumno) REFERENCES Alumno(Dni_Alumno),
-FOREIGN KEY(FK_CodigoAsignaturaNoInstrumental) REFERENCES AsignaturaNoInstrumental(Codigo_AsignaturaNoInstrumental)
+FOREIGN KEY(FK_CodigoAsignaturaNoInstrumental) REFERENCES AsignaturaMagistral(Codigo_AsignaturaMagistral)
 ) ON Administracion
 GO
 
@@ -312,13 +314,10 @@ FOREIGN KEY(FK_CodigoAsignaturaInstrumental) REFERENCES AsignaturaInstrumental(C
 ) ON Infraestructura
 GO
 
-<<<<<<< HEAD
 
-=======
 Use ConservatorioCastella
 GO
- Create Table EnsayoReserva
- (
+ Create Table EnsayoReserva(
    Codigo_EnsayoReserva   varchar(30) Not NUll,
    Hora_Inicio            Time NUll,
    Hora_Fin               Time NUll,
@@ -329,9 +328,8 @@ GO
    Primary Key Clustered (Codigo_EnsayoReserva)
    Foreign Key (Dni_Profesor) References Profesor(Dni_Profesor),
    Foreign Key (Dni_Alumno) References Alumno (Dni_Alumno)
-
- )
-
+ ) ON Administracion
+	GO
 
  
 Use ConservatorioCastella
@@ -340,4 +338,5 @@ GO
    Id_InstrumentoProfesor INTEGER IDENTITY(1,1) NOT NULL,
 
  )
->>>>>>> 0cc343afb748c293fcb1ffc1085a558f2227023f
+
+ Drop Database ConservatorioCastella
