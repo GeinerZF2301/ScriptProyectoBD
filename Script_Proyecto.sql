@@ -281,3 +281,4 @@ FOREIGN KEY(FK_CodigoAsignaturaInstrumental) REFERENCES AsignaturaInstrumental(C
 ) ON Infraestructura
 GO
 
+
