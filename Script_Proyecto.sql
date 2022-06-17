@@ -216,6 +216,7 @@ PRIMARY KEY(Codigo_AsignaturaNoInstrumental)
 --Falta añadir la relacion con la llave foránea de Aula Magistral
 )ON Administracion
 
+
 Create Table AlumnoAsignaturaInstrumental(
 Id_AlumnoAsignatura INTEGER IDENTITY(1,1) NOT NULL,
 FK_DniAlumno varchar(10) NOT NULL,
@@ -234,6 +235,15 @@ FOREIGN KEY(FK_CodigoAsignaturaNoInstrumental) REFERENCES AsignaturaNoInstrument
 ) ON Administracion
 GO
 
+Use ConservatorioCastella
+GO
+Create table Curso(
+Año int NOT NULL,
+Fecha_Inicio date NOT NULL,
+Fecha_Final date NOT NULL
+PRIMARY KEY(Año)
+) ON Administracion
+GO
 
 
 /*Creacion de las tablas de Aulas y Edificios que van al filegroup de Infraestructura*/
