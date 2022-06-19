@@ -187,7 +187,6 @@ FOREIGN KEY(FK_CodigoAsignaturaMagistral) REFERENCES AsignaturaMagistral(Codigo_
 ) ON Administracion
 GO
 
-
 ---Tabla ENSAYO RESERVA
 Use ConservatorioCastella
 GO
@@ -207,11 +206,45 @@ GO
  )ON Administracion
  Go
 
- --Tabla INSTRUMENTO PROFESOR
+ --Tabla ASIGNATURA INSTRUMENTal PROFESOR
  
 Use ConservatorioCastella
 GO
- Create Table InstrumentoProfesor(
+ Create Table AsignaturaInstrumentalProfesor(
+   Id_AsignaturaInstrumentalProfesor INTEGER IDENTITY(1,1) NOT NULL,
+   Fk_Codigo_AsignaturaInstrumental varchar(20) Not NULL,  
+   Fk_Dni_Profesor           varchar(10) Not NUll,
+   Constraint PK_AsignaturaInstrumentalProfesor
+   Primary Key  (Id_AsignaturaInstrumentalProfesor),
+   Foreign Key (Fk_Codigo_AsignaturaInstrumental) References AsignaturaInstrumental (Codigo_AsignaturaInstrumental),
+   Foreign Key (Fk_Dni_Profesor) References Profesor(Dni_Profesor)
+
+ )On Administracion
+ GO
+
+ Use ConservatorioCastella
+GO
+ Create Table AsignaturaMagistralProfesor(
+  Id_AsignaturaMagistralProfesor   INTEGER IDENTITY(1,1) NOT NULL,
+  FK_Codigo_AsignaturaMagistral  varchar(20) NOT NULL,
+  FK_Dni_Profesor           varchar(10) Not NUll
+  Constraint PK_AsignaturaMagistralProfesor
+   Primary Key  (Id_AsignaturaMagistralProfesor),
+   Foreign Key (FK_Codigo_AsignaturaMagistral) References AsignaturaMagistral (Codigo_AsignaturaMagistral),
+   Foreign Key (Fk_Dni_Profesor) References Profesor(Dni_Profesor)
+
+ )On Administracion
+ GO
+
+
+
+
+
+  --Tabla INSTRUMENTO PROFESOR
+
+ Use ConservatorioCastella
+GO
+ Create Table  InstrumentoProfesor(
    Id_InstrumentoProfesor INTEGER IDENTITY(1,1) NOT NULL,
    Id_Instrumento         int NOT NULL,    
    Dni_Profesor           varchar(10) Not NUll
@@ -224,6 +257,36 @@ GO
  GO
 
 
+Use ConservatorioCastella
+GO
+ Create Table AlumnoCursoAsignaturaMagistral(
+Id_CursoAsignatura  INTEGER IDENTITY(1,1) NOT NULL,
+Fk_Dni_Alumno             varchar(10) Not NUll,
+FK_Año                    int NOT NULL,
+FK_Codigo_AsignaturaMagistral  varchar(20) NOT NULL, 
+Nota           int  Null,
+ Constraint PK_AlumnoCursoAsignaturas
+ Primary Key (Id_CursoAsignatura),
+ FOREIGN KEY(FK_Dni_Alumno) REFERENCES Alumno(Dni_Alumno),
+ Foreign Key (FK_Codigo_AsignaturaMagistral) References AsignaturaMagistral (Codigo_AsignaturaMagistral),
+ ) ON Administracion
+ GO
+
+
+Use ConservatorioCastella
+GO
+ Create Table AlumnoCursoAsignaturaInstrumental(
+Id_CursoAsignatura  INTEGER IDENTITY(1,1) NOT NULL,
+Fk_Dni_Alumno             varchar(10) Not NUll,
+FK_Año                    int NOT NULL,
+FK_Codigo_AsignaturaInstrumental  varchar(20) NOT NULL, 
+Nota           int  Null,
+ Constraint PK_AlumnoCursoAsignaturaInstrumental
+ Primary Key (Id_CursoAsignatura),
+ FOREIGN KEY(FK_Dni_Alumno) REFERENCES Alumno(Dni_Alumno),
+ Foreign Key (FK_Codigo_AsignaturaInstrumental) References AsignaturaInstrumental (Codigo_AsignaturaInstrumental),
+ ) ON Administracion
+ GO
 
 
 
@@ -272,11 +335,12 @@ FOREIGN KEY(FK_CodigoEdificio) REFERENCES Edificio(Codigo_Edificio),
 ) ON Infraestructura
 GO
 
-
-
-
-
-
+--Se agrega la columna Edad a Alumno para la elaboracion de un trigger
+Use ConservatorioCastella
+GO
+Alter Table Alumno
+ADD Edad int  NULL
+GO
 
 
 
