@@ -11,4 +11,8 @@ Y el Filegroup Infraestructura se encuentran tablas que a grosso modo tiene que 
 Aulas y Edificio
 
 
-Falta:  Actualmente faltan 5 tablas de construir, se debe implementar los procedimientos almacenados y triggers.
+Todas las tablas se crearon correctamente asi como sus respectivas relaciones por llaves primarias y foraneas 
+
+Faltante: Triggers y Procedimientos almacenados
+
+
