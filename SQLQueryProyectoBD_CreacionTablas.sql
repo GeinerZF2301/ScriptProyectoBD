@@ -44,10 +44,9 @@ FechaNacimiento date NULL,
 Telefono_Contacto int NOT NULL,
 Numero_Expediente varchar(10) NULL,
 Estado text,
-FK_Dni_Encargado varchar(10) NOT NULL,
+FK_Dni_Encargado varchar(10) NULL,
 Constraint PK_Alumno
 PRIMARY KEY(Dni_Alumno),
-FOREIGN KEY(FK_Dni_Encargado) REFERENCES Encargado(Dni_Encargado)
 ) ON Personas
 Go
 --Tabla PROFESOR
@@ -97,6 +96,7 @@ Create Table Instrumento(
 )ON Administracion
 GO
 
+--
 
 ---Tabla CURSO
 
@@ -123,11 +123,21 @@ FK_IdAulaInstrumental varchar(30) Not Null,
 Constraint PK_AsignaturaInstrumental
 PRIMARY KEY(Codigo_AsignaturaInstrumental),
 FOREIGN KEY(FK_IdAulaInstrumental) REFERENCES AulasInstrumentales(Id_AulaInstrumental)
---Falta añadir la relacion con la llave foránea 
 )ON Administracion
 
 go
 
+Use ConservatorioCastella
+GO
+Create Table EncargadoAlumno(
+Id INTEGER IDENTITY(1,1) NOT null,
+FK_DniAlumno varchar(10) NOT NULL,
+DniEncargado varchar(10) NOT NULL,
+Constraint PK_EncargadoAlumno
+PRIMARY KEY(Id),
+FOREIGN KEY (FK_DniAlumno) REFERENCES Alumno(Dni_Alumno),
+)On Administracion
+GO
 
 
 --Tabla ALUMNO INSTRUMENTO
@@ -289,6 +299,52 @@ Nota           int  Null,
  GO
 
 
+ --Nuevas Tablas
+
+ Use ConservatorioCastella
+GO
+Create table CursoProfesorAsignatura(
+Id_CursoProfesorAsignatura INTEGER IDENTITY(1,1) NOT NULL,
+FK_Dni_Profesor varchar(10) NOT NULL,
+FK_Año int NOT NULL,
+FK_Codigo_AsignaturaMagistral varchar(20) NOT NULL,
+COnstraint PK_CursoProfesorAsignatura
+PRIMARY KEY(Id_CursoProfesorAsignatura),
+ FOREIGN KEY(FK_Dni_Profesor) REFERENCES Profesor(Dni_Profesor),
+  FOREIGN KEY(FK_Año) REFERENCES Curso(Año),
+   FOREIGN KEY(FK_Codigo_AsignaturaMagistral) REFERENCES AsignaturaMagistral(Codigo_AsignaturaMagistral), 
+)ON Administracion
+GO
+
+
+Use ConservatorioCastella
+GO
+Create table ProfesorAsignatura(
+Id_ProfesorAsignatura INTEGER IDENTITY(1,1) NOT NULL,
+FK_Dni_Profesor varchar(10) NOT NULL,
+FK_Codigo_AsignaturaMagistral varchar(20) NOT NULL,
+COnstraint PK_ProfesorAsignatura
+PRIMARY KEY(Id_ProfesorAsignatura),
+ FOREIGN KEY(FK_Dni_Profesor) REFERENCES Profesor(Dni_Profesor),
+   FOREIGN KEY(FK_Codigo_AsignaturaMagistral) REFERENCES AsignaturaMagistral(Codigo_AsignaturaMagistral), 
+)ON Administracion
+GO
+
+Use ConservatorioCastella
+GO
+Create Table TipoInstrumento(
+ Id_TipoInstrumento INTEGER IDENTITY(1,1) NOT NULL,
+ FK_Id_Tipo int Not NUll,
+  FK_Id_Instrumento int NOT NULL,
+ COnstraint PK_TipoInstrumento
+ PRIMARY KEY(Id_TipoInstrumento),
+  FOREIGN KEY(FK_Id_Tipo) REFERENCES Tipo(Id_Tipo),
+    FOREIGN KEY(FK_Id_Instrumento) REFERENCES Instrumento(Id_Instrumento)
+ )ON Administracion
+ GO
+
+
+
 
 
 
@@ -341,7 +397,6 @@ GO
 Alter Table Alumno
 ADD Edad int  NULL
 GO
-
 
 
 
