@@ -301,7 +301,7 @@ Nota           int  Null,
 
  --Nuevas Tablas
 
- Use ConservatorioCastella
+Use ConservatorioCastella
 GO
 Create table CursoProfesorAsignatura(
 Id_CursoProfesorAsignatura INTEGER IDENTITY(1,1) NOT NULL,

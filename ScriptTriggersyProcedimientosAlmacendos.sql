@@ -6,7 +6,7 @@ ALTER trigger TR_ValidarInsercionAlumno
 On Alumno
 For Insert
 As
-	IF(select Edad from inserted) < 18 AND (select FK_Dni_Encargado from inserted) = ''
+	IF(select Edad from inserted) < 18 AND (select Dni_Encargado from inserted) = ''
 	Begin
 		ROLLBACK TRANSACTION
 		PRINT 'INSERCION DENEGADA'
@@ -32,15 +32,15 @@ As
 
 
 	--Insertar en tabla Intermediaria
-Create Trigger TR_INSERTINSTRUMENTOPROFESOR
-On Profesor after insert AND On Instrumento after insert
-As
-	set nocount on
-	declare @DniProfesor varchar(10) = (select Dni_Profesor from inserted)
+--Create Trigger TR_INSERTINSTRUMENTOPROFESOR
+--On Profesor after insert AND On Instrumento after insert
+--As
+--	set nocount on
+--	declare @DniProfesor varchar(10) = (select Dni_Profesor from inserted)
 
-	insert into InstrumentoProfesor values(@DniProfesor)
-	PRINT 'PROFESOR REGISTRADO EN ADMINISTRACION'
-	END
+--	insert into InstrumentoProfesor values(@DniProfesor)
+--	PRINT 'PROFESOR REGISTRADO EN ADMINISTRACION'
+--	END
 
 
 
@@ -90,16 +90,16 @@ PRINT '¡RESERVA REGISTRADA CORRECTAMENTE!'
 RETURN END
 GO
 
-Execute SP_InsertReservaEnsayo 'CodR078', '12:00:00', '2:00:00','06/06/2022', '0987', '05958'
+Execute SP_InsertReservaEnsayo 'Cod098765', '09:00:00', '3:00:00','06/06/2022', '0987', '05958'
 GO
 
 
 --Valida la existencia de una aula instrumental con un nombre en edificio, si no existe 
 --registra el aula
-Create Procedure SP_InsertAulaInstrumental( @Id_Aula varchar(30), @MetrosPoseidos int, @Nombre varchar(20), 
+Alter Procedure SP_InsertAulaInstrumental( @Id_Aula varchar(30), @MetrosPoseidos int, @Nombre varchar(20), 
 @Aforo int, @IdInstrumento int, @CodigoEdificio varchar(15), @CodigoAsignatura varchar(20))
 AS
-If Exists(Select Nombre from AulasInstrumentales Where  Nombre = @Nombre )
+If Exists(Select Nombre, FK_CodigoEdificio from AulasInstrumentales Where  Nombre = @Nombre AND FK_CodigoEdificio = @CodigoEdificio)
 BEGIN
 	PRINT 'NO ES POSIBLE REGISTRAR'
 	PRINT '¡YA EXISTE UNA AULA CON ESE NOMBRE EN ESE EDIFICIO!'
@@ -112,5 +112,8 @@ BEGIN
 	RETURN END
 	GO
 
-	Execute SP_InsertAulaInstrumental  'AI02', 6, 'Musica', 4, 1, E01,'AS01' 
+
+
+	Execute SP_InsertAulaInstrumental  'AI03', 6, 'Musica', 4, 1, E02,'AS01' 
+
 	Sp_Help AsignaturaInstrumental
