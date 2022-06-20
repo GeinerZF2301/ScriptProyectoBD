@@ -44,6 +44,7 @@ filegrowth=4Mb
 )
 Go
 
+
 ---Creación de Filegroups
 Use master
 Go
