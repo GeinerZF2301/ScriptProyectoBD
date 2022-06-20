@@ -2,11 +2,11 @@
 
 USE ConservatorioCastella
 GO
-ALTER trigger TR_ValidarInsercionAlumno
+Create trigger TR_ValidarInsercionAlumno
 On Alumno
 For Insert
 As
-	IF(select Edad from inserted) < 18 AND (select Dni_Encargado from inserted) = ''
+	IF(select Edad from inserted) < 18 AND (select FK_Dni_Encargado from inserted) = ''
 	Begin
 		ROLLBACK TRANSACTION
 		PRINT 'INSERCION DENEGADA'
@@ -18,7 +18,7 @@ As
 GO
 
 --Insertar en tabla Intermediaria
-Alter Trigger TR_INSERTENCARGADOALUMNO
+Create Trigger TR_INSERTENCARGADOALUMNO
 On Alumno For Insert
 As
 	set nocount on
@@ -73,7 +73,7 @@ GO
 
 --Valida las reservaciones de los profesores para los ensayos, si no existe una reserva a en una fecha y hora en especifico
 --Registrará la reserva
-ALTER PROCEDURE SP_InsertReservaEnsayo(@CodigoReserva varchar(30),@HoraInicio time, @HoraFin time,
+Create PROCEDURE SP_InsertReservaEnsayo(@CodigoReserva varchar(30),@HoraInicio time, @HoraFin time,
 @Fecha date, @DniProfesor varchar(10),@DniAlumno varchar(10))
 AS
 IF Exists(Select Fecha, Hora_Inicio,Hora_Fin from EnsayoReserva WHERE Fecha = @Fecha AND Hora_Inicio = @HoraInicio 
@@ -90,13 +90,13 @@ PRINT '¡RESERVA REGISTRADA CORRECTAMENTE!'
 RETURN END
 GO
 
-Execute SP_InsertReservaEnsayo 'Cod098765', '09:00:00', '3:00:00','06/06/2022', '0987', '05958'
+Execute SP_InsertReservaEnsayo 'Cod3484', '09:00:00', '3:00:00','06/06/2022', '0987', '05958'
 GO
 
 
 --Valida la existencia de una aula instrumental con un nombre en edificio, si no existe 
 --registra el aula
-Alter Procedure SP_InsertAulaInstrumental( @Id_Aula varchar(30), @MetrosPoseidos int, @Nombre varchar(20), 
+Create Procedure SP_InsertAulaInstrumental( @Id_Aula varchar(30), @MetrosPoseidos int, @Nombre varchar(20), 
 @Aforo int, @IdInstrumento int, @CodigoEdificio varchar(15), @CodigoAsignatura varchar(20))
 AS
 If Exists(Select Nombre, FK_CodigoEdificio from AulasInstrumentales Where  Nombre = @Nombre AND FK_CodigoEdificio = @CodigoEdificio)
@@ -117,3 +117,29 @@ BEGIN
 	Execute SP_InsertAulaInstrumental  'AI03', 6, 'Musica', 4, 1, E02,'AS01' 
 
 	Sp_Help AsignaturaInstrumental
+
+
+Use ConservatorioCastella
+Go
+Alter procedure Sp_InsertarAlumno (@Dni_Alummno varchar(10), @Dni_Encargado varchar(10), @Numero_Expediente varchar(10), @NombreAlumno varchar(10), @Apellido1 varchar(10), @Apellido2 varchar(10), @FechaNacimiento date, @Telefono_Contacto int, @Estado text )
+AS
+IF ((@Dni_Alummno)='' or (@Dni_Encargado)='' or (@Numero_Expediente)='' or (@NombreAlumno)='' or (@Apellido1)='' or (@Apellido2)='' or (@FechaNacimiento)='' or (@Telefono_Contacto)='')
+BEGIN
+	PRINT '¡FAVOR REVISAR!'
+	PRINT 'NO SE PUEDEN INGRENSAR VALORES NULOS'
+	RETURN
+END
+
+ELSE
+	BEGIN
+	insert into Alumno (Dni_Alumno, FK_Dni_Encargado, Numero_Expediente, NombreAlumno, Apellido1, Apellido2, FechaNacimiento, Telefono_Contacto, Estado)
+Values (@Dni_Alummno, @Dni_Encargado, @Numero_Expediente, @NombreAlumno, @Apellido1, @Apellido2, @FechaNacimiento, @Telefono_Contacto, @Estado)
+	PRINT 'El Registro se ha ingresado correctamente'
+END
+GO
+
+
+--Insertar Alumnos por procedimiento almacenado
+Execute Sp_InsertarAlumno '12321', '3434', '0595', 'Geiner', 'Zuniga', 'Flores', '06/06/2022', '34323', 'Inactivo'
+Execute Sp_InsertarAlumno '09585', '', '0978', 'Maria', 'Acon', 'Vargas', '2001/05/23', '34323', 'Activo'
+

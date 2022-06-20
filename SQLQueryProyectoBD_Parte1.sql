@@ -17,9 +17,9 @@ On Primary
 (
 Name='CoservatorioCastella_Data',
 FIlename='C:\SQLData\CoservatorioCastella_Data.mdf',
-size=60Mb,
-maxsize=80Mb,
-filegrowth=2Mb)
+size=1Gb,
+maxsize=2Gb,
+filegrowth=100Mb)
 --Archivo de Registro
 Log On
 (
