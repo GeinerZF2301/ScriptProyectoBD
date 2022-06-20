@@ -32,18 +32,7 @@ As
 
 
 	--Insertar en tabla Intermediaria
-<<<<<<< HEAD
---Create Trigger TR_INSERTINSTRUMENTOPROFESOR
---On Profesor after insert AND On Instrumento after insert
---As
---	set nocount on
---	declare @DniProfesor varchar(10) = (select Dni_Profesor from inserted)
 
---	insert into InstrumentoProfesor values(@DniProfesor)
---	PRINT 'PROFESOR REGISTRADO EN ADMINISTRACION'
---	END
-=======
-	-----No me sirve
 Create Trigger TR_INSERTINSTRUMENTOPROFESOR
 On Profesor after insert AND On Instrumento after insert
 As
@@ -53,9 +42,6 @@ As
 	insert into InstrumentoProfesor values(@DniProfesor)
 	PRINT 'PROFESOR REGISTRADO EN ADMINISTRACION'
 	END
-	GO
->>>>>>> e724a4bde802dccd5d23cb18a771f073f1bc5723
-
 	------------------------------------------------------------------------------------------------
 
 sp_Help Instrumento
@@ -88,10 +74,7 @@ GO
 
 --Valida las reservaciones de los profesores para los ensayos, si no existe una reserva a en una fecha y hora en especifico
 --Registrará la reserva
-<<<<<<< HEAD
-=======
 
->>>>>>> e724a4bde802dccd5d23cb18a771f073f1bc5723
 Create PROCEDURE SP_InsertReservaEnsayo(@CodigoReserva varchar(30),@HoraInicio time, @HoraFin time,
 @Fecha date, @DniProfesor varchar(10),@DniAlumno varchar(10))
 AS
@@ -138,7 +121,7 @@ BEGIN
 	Sp_Help AsignaturaInstrumental
 
 
-<<<<<<< HEAD
+
 Use ConservatorioCastella
 Go
 Alter procedure Sp_InsertarAlumno (@Dni_Alummno varchar(10), @Dni_Encargado varchar(10), @Numero_Expediente varchar(10), @NombreAlumno varchar(10), @Apellido1 varchar(10), @Apellido2 varchar(10), @FechaNacimiento date, @Telefono_Contacto int, @Estado text )
@@ -146,7 +129,7 @@ AS
 IF ((@Dni_Alummno)='' or (@Dni_Encargado)='' or (@Numero_Expediente)='' or (@NombreAlumno)='' or (@Apellido1)='' or (@Apellido2)='' or (@FechaNacimiento)='' or (@Telefono_Contacto)='')
 BEGIN
 	PRINT '¡FAVOR REVISAR!'
-=======
+
 	--ProcedimientoAlamacenado INSERTAR
 	Use ConservatorioCastella
 Go
@@ -154,17 +137,17 @@ Create procedure Sp_InsertarAulasMagistrales (@Id_AulaMagistral varchar(9), @Equ
 AS
 IF ((@Id_AulaMagistral='') or (@Equipada='') or (@Nombre_AulaMagistral='') or (@Aforo=''))
 BEGIN
->>>>>>> e724a4bde802dccd5d23cb18a771f073f1bc5723
+
 	PRINT 'NO SE PUEDEN INGRENSAR VALORES NULOS'
 	RETURN
 END
 
 ELSE
 	BEGIN
-<<<<<<< HEAD
+
 	insert into Alumno (Dni_Alumno, FK_Dni_Encargado, Numero_Expediente, NombreAlumno, Apellido1, Apellido2, FechaNacimiento, Telefono_Contacto, Estado)
 Values (@Dni_Alummno, @Dni_Encargado, @Numero_Expediente, @NombreAlumno, @Apellido1, @Apellido2, @FechaNacimiento, @Telefono_Contacto, @Estado)
-=======
+
 	insert into AulasMagistrales (Id_AulaMagistral, Equipada, Nombre_AulaMagistral, Aforo)
 Values (@Id_AulaMagistral, @Equipada, @Nombre_AulaMagistral, @Aforo)
 	PRINT 'El Registro se ha ingresado correctamente'
@@ -185,21 +168,19 @@ ELSE
 	BEGIN
 	insert into AsignaturaMagistral (Codigo_AsignaturaMagistral, Nombre_AsignaturaMagistral, CantidadHoras, FK_Id_AulaMagistral)
 Values (@Codigo_AsignaturaMagistral, @Nombre_AsignaturaMagistral, @CantidadHoras, @Id_AulaMagistral)
->>>>>>> e724a4bde802dccd5d23cb18a771f073f1bc5723
+
 	PRINT 'El Registro se ha ingresado correctamente'
 END
 GO
 
 
-<<<<<<< HEAD
+
 --Insertar Alumnos por procedimiento almacenado
 Execute Sp_InsertarAlumno '12321', '3434', '0595', 'Geiner', 'Zuniga', 'Flores', '06/06/2022', '34323', 'Inactivo'
 Execute Sp_InsertarAlumno '09585', '', '0978', 'Maria', 'Acon', 'Vargas', '2001/05/23', '34323', 'Activo'
 
-=======
-	--ProcedimientoAlamacenado ELIMINAR
-
-	  ------1
+--ProcedimientoAlamacenado ELIMINAR
+------1
 
 CREATE PROC sp_EliminarAlumnoAsignaturaMagistral(@Id_AlumnoAsignatura int  NULL)	
 AS
@@ -334,7 +315,7 @@ IF ((@Codigo_AsignaturaInstrumental=''))
    RETURN
 END
 ELSE
-IF EXISTS (SELECT FK_Codigo_AsignaturaInstrumental FROM AlumnoAsignaturaInstrumental WHERE Codigo_AsignaturaInstrumental = @Codigo_AsignaturaInstrumental) 
+IF EXISTS (SELECT FK_Codigo_AsignaturaInstrumental FROM AlumnoAsignaturaInstrumental WHERE FK_Codigo_AsignaturaInstrumental = @Codigo_AsignaturaInstrumental) 
    BEGIN
        PRINT 'EXISTE UNA RELACION, IMPOSIBLE DE ELIMINAR'
    RETURN
@@ -860,4 +841,4 @@ ELSE
   RETURN
 END	
 GO
->>>>>>> e724a4bde802dccd5d23cb18a771f073f1bc5723
+
